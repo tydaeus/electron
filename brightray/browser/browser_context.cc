@@ -101,9 +101,11 @@ BrowserContext::~BrowserContext() {
 void BrowserContext::InitPrefs() {
   auto prefs_path = GetPath().Append(FILE_PATH_LITERAL("Preferences"));
   PrefServiceFactory prefs_factory;
-  prefs_factory.SetUserPrefsFile(prefs_path,
-      JsonPrefStore::GetTaskRunnerForFile(
-          prefs_path, BrowserThread::GetBlockingPool()).get());
+
+  auto runner = base::CreateSequencedTaskRunnerWithTraits(
+            {base::MayBlock()});
+
+  prefs_factory.SetUserPrefsFile(prefs_path, runner.get());
 
   auto registry = make_scoped_refptr(new PrefRegistrySimple);
   RegisterInternalPrefs(registry.get());
