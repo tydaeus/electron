@@ -64,7 +64,7 @@ scoped_refptr<BrowserContext> BrowserContext::Get(
     const std::string& partition, bool in_memory) {
   PartitionKey key(partition, in_memory);
   if (browser_context_map_[key].get())
-    return make_scoped_refptr(browser_context_map_[key].get());
+    return WrapRefCounted(browser_context_map_[key].get());
 
   return nullptr;
 }
@@ -107,7 +107,7 @@ void BrowserContext::InitPrefs() {
 
   prefs_factory.SetUserPrefsFile(prefs_path, runner.get());
 
-  auto registry = make_scoped_refptr(new PrefRegistrySimple);
+  auto registry = WrapRefCounted(new PrefRegistrySimple);
   RegisterInternalPrefs(registry.get());
   RegisterPrefs(registry.get());
 
