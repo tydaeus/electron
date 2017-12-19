@@ -42,11 +42,11 @@ void AtomJavaScriptDialogManager::RunJavaScriptDialog(
   }
 
   atom::ShowMessageBox(NativeWindow::FromWebContents(web_contents),
-                       atom::MessageBoxType::MESSAGE_BOX_TYPE_NONE, buttons, -1,
-                       0, atom::MessageBoxOptions::MESSAGE_BOX_NONE, "",
-                       base::UTF16ToUTF8(message_text), "", "", false,
-                       gfx::ImageSkia(),
-                       base::Bind(&OnMessageBoxCallback, base::Passed(&callback)));
+      atom::MessageBoxType::MESSAGE_BOX_TYPE_NONE, buttons, -1,
+      0, atom::MessageBoxOptions::MESSAGE_BOX_NONE, "",
+      base::UTF16ToUTF8(message_text), "", "", false,
+      gfx::ImageSkia(),
+      base::Bind(&OnMessageBoxCallback, base::Passed(&callback)));
 }
 
 void AtomJavaScriptDialogManager::RunBeforeUnloadDialog(
