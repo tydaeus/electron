@@ -949,7 +949,8 @@ bool WebContents::OnMessageReceived(const IPC::Message& message) {
                                     OnSetTemporaryZoomLevel)
     IPC_MESSAGE_HANDLER_DELAY_REPLY(AtomViewHostMsg_GetZoomLevel,
                                     OnGetZoomLevel)
-    // fixme(MarshallOfSound): Re-enable and investigate what causes the linking error
+    // fixme(MarshallOfSound): Re-enable and investigate what causes
+    // the linking error.
     // IPC_MESSAGE_HANDLER_CODE(ViewHostMsg_SetCursor, OnCursorChange,
     //   handled = false)
     IPC_MESSAGE_UNHANDLED(handled = false)
