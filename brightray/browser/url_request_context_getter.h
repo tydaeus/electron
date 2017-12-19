@@ -34,7 +34,6 @@ class URLRequestJobFactory;
 namespace brightray {
 
 class RequireCTDelegate;
-class DevToolsNetworkControllerHandle;
 class NetLog;
 
 class URLRequestContextGetter : public net::URLRequestContextGetter {
@@ -61,7 +60,6 @@ class URLRequestContextGetter : public net::URLRequestContextGetter {
 
   URLRequestContextGetter(
       Delegate* delegate,
-      DevToolsNetworkControllerHandle* handle,
       NetLog* net_log,
       const base::FilePath& base_path,
       bool in_memory,
@@ -85,7 +83,6 @@ class URLRequestContextGetter : public net::URLRequestContextGetter {
  private:
   Delegate* delegate_;
 
-  DevToolsNetworkControllerHandle* network_controller_handle_;
   NetLog* net_log_;
   base::FilePath base_path_;
   bool in_memory_;
