@@ -1786,7 +1786,7 @@ void WebContents::OnSetTemporaryZoomLevel(double level,
   zoom_controller_->SetTemporaryZoomLevel(level);
   double new_level = zoom_controller_->GetZoomLevel();
   AtomViewHostMsg_SetTemporaryZoomLevel::WriteReplyParams(reply_msg, new_level);
-  
+
   auto host = web_contents()->GetRenderViewHost();
   if (host)
     host->Send(reply_msg);
