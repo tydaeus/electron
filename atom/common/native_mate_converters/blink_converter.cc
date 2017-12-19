@@ -308,7 +308,8 @@ bool Converter<blink::WebFloatPoint>::FromV8(
 template<>
 struct Converter<base::Optional<blink::WebPoint>> {
   static bool FromV8(
-      v8::Isolate* isolate, v8::Local<v8::Value> val, base::Optional<blink::WebPoint>* out) {
+      v8::Isolate* isolate, v8::Local<v8::Value> val,
+      base::Optional<blink::WebPoint>* out) {
     mate::Dictionary dict;
     if (!ConvertFromV8(isolate, val, &dict))
       return false;
