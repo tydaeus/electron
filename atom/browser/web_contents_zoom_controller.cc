@@ -54,7 +54,8 @@ void WebContentsZoomController::SetZoomLevel(double level) {
       zoom_mode_ == ZOOM_MODE_DISABLED)
     return;
 
-  int render_process_id = web_contents()->GetRenderViewHost()->GetProcess()->GetID();
+  int render_process_id =
+      web_contents()->GetRenderViewHost()->GetProcess()->GetID();
   int render_view_id = web_contents()->GetRenderViewHost()->GetRoutingID();
 
   if (zoom_mode_ == ZOOM_MODE_MANUAL) {
@@ -108,7 +109,8 @@ void WebContentsZoomController::SetTemporaryZoomLevel(double level) {
 }
 
 bool WebContentsZoomController::UsesTemporaryZoomLevel() {
-  int render_process_id = web_contents()->GetRenderViewHost()->GetProcess()->GetID();
+  int render_process_id =
+      web_contents()->GetRenderViewHost()->GetProcess()->GetID();
   int render_view_id = web_contents()->GetRenderViewHost()->GetRoutingID();
   return host_zoom_map_->UsesTemporaryZoomLevel(render_process_id,
                                                 render_view_id);
@@ -121,7 +123,8 @@ void WebContentsZoomController::SetZoomMode(ZoomMode new_mode) {
 
   content::HostZoomMap* zoom_map =
       content::HostZoomMap::GetForWebContents(web_contents());
-  int render_process_id = web_contents()->GetRenderViewHost()->GetProcess()->GetID();
+  int render_process_id =
+      web_contents()->GetRenderViewHost()->GetProcess()->GetID();
   int render_view_id = web_contents()->GetRenderViewHost()->GetRoutingID();
   double original_zoom_level = GetZoomLevel();
 
@@ -204,7 +207,8 @@ void WebContentsZoomController::ResetZoomModeOnNavigationIfNeeded(
   if (zoom_mode_ != ZOOM_MODE_ISOLATED && zoom_mode_ != ZOOM_MODE_MANUAL)
     return;
 
-  int render_process_id = web_contents()->GetRenderViewHost()->GetProcess()->GetID();
+  int render_process_id =
+      web_contents()->GetRenderViewHost()->GetProcess()->GetID();
   int render_view_id = web_contents()->GetRenderViewHost()->GetRoutingID();
   content::HostZoomMap* zoom_map =
       content::HostZoomMap::GetForWebContents(web_contents());
