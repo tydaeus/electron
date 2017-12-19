@@ -850,6 +850,12 @@ void App::SetDesktopName(const std::string& desktop_name) {
 #endif
 }
 
+// TODO(codebytere)
+void App::SetLocale(std::string locale) {
+  std::string locale = cmd.GetSwitchValueASCII(switches::kLang);
+  return;
+}
+
 std::string App::GetLocale() {
   return l10n_util::GetApplicationLocale("");
 }
@@ -1241,6 +1247,7 @@ void App::BuildPrototype(
       .SetMethod("setPath", &App::SetPath)
       .SetMethod("getPath", &App::GetPath)
       .SetMethod("setDesktopName", &App::SetDesktopName)
+      .SetMethod("setLocale", &App::SetLocale)
       .SetMethod("getLocale", &App::GetLocale)
 #if defined(USE_NSS_CERTS)
       .SetMethod("importCertificate", &App::ImportCertificate)
