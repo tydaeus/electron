@@ -39,7 +39,8 @@ void RemoteCallbackFreer::RunDestructor() {
   args.AppendInteger(object_id_);
   auto host = web_contents()->GetRenderViewHost();
   if (host) {
-    host->Send(new AtomViewMsg_Message(host->GetRoutingID(), false, channel, args));
+    host->Send(new AtomViewMsg_Message(
+        host->GetRoutingID(), false, channel, args));
   }
 
   Observe(nullptr);
