@@ -72,11 +72,13 @@
   });
 
   walker.on('file', function(file) {
+    process.stdout.write('In index.html, adding spec file', file)
     if (/-spec\.js$/.test(file) && !file.includes('api-crash-reporter-spec.js'))
       mocha.addFile(file);
   });
 
   walker.on('end', function() {
+    process.stdout.write('In index.html, done reading spec files, about to run mocha')
     mocha.addFile(path.resolve(__dirname, '..', 'api-crash-reporter-spec.js'))
     var runner = mocha.run(function() {
       if (isCi && runner.hasOnly) {

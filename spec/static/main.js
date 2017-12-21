@@ -1,4 +1,5 @@
 // Disable use of deprecated functions.
+process.stdout.write('In main.js for test suite')
 process.throwDeprecation = true
 
 const electron = require('electron')

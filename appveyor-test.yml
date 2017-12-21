@@ -1,0 +1,67 @@
+version: 1.0.{build}
+build_cloud: libcc-20
+skip_branch_with_pr: true
+image: libcc-20core
+environment:
+  DISABLE_CRASH_REPORTER_TESTS: true
+  matrix:
+  - TARGET_ARCH: ia32
+  - TARGET_ARCH: x64
+build_script:
+- ps: >-
+    Add-Path "$env:ProgramFiles (x86)\Windows Kits\10\Debuggers\x64"
+
+    $env:path = "$env:ProgramFiles (x86)\Windows Kits\10\Debuggers\x64;$env:path"
+
+    $Message = (git log --format=%B -n 1 HEAD) | Out-String
+
+    if (($Message.StartsWith('Bump')) -Or (Test-Path Env:\RUN_RELEASE_BUILD)) {
+      $env:ELECTRON_RELEASE = '1'
+      if (Test-Path Env:\RUN_RELEASE_BUILD) {
+        Write-Output "release build triggered from api"
+      }
+      python script\bootstrap.py --target_arch=$env:TARGET_ARCH
+      python script\build.py -c R
+      python script\create-dist.py
+    } else {
+      python script\bootstrap.py --target_arch=$env:TARGET_ARCH --dev
+      python script\build.py -c D
+    }
+
+    if ($? -ne 'True') {
+      throw "Build failed with exit code $?"
+    } else {
+      "Build succeeded."
+    }
+test_script:
+- ps: >-
+    if (Test-Path Env:\ELECTRON_RELEASE) {
+      "Skipping tests for release build"
+    } else {
+      $pinfo = New-Object System.Diagnostics.ProcessStartInfo
+      $pinfo.FileName = "python.exe"
+      $pinfo.RedirectStandardError = $true
+      $pinfo.RedirectStandardOutput = $true
+      $pinfo.UseShellExecute = $false
+      $pinfo.Arguments = “$PWD\script\test.py --ci"
+      $p = New-Object System.Diagnostics.Process
+      $p.StartInfo = $pinfo
+      $p.Start() | Out-Null
+      $p.WaitForExit(1800000)
+      $stdout = $p.StandardOutput.ReadToEnd()
+      $stderr = $p.StandardError.ReadToEnd()
+      Write-Host "stdout: $stdout"
+      Write-Host "stderr: $stderr"
+      if ($p.ExitCode -ne '0') {
+        throw "Tests failed with exit code $p.ExitCode"
+      } else {
+        "Tests succeeded."
+      }
+      python script\verify-ffmpeg.py
+
+      if ($LASTEXITCODE -ne '0') {
+        throw "Verify ffmpeg failed with exit code $LASTEXITCODE"
+      } else {
+        "Verify ffmpeg succeeded."
+      }
+    }
