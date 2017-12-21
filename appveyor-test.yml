@@ -38,25 +38,14 @@ test_script:
     if (Test-Path Env:\ELECTRON_RELEASE) {
       "Skipping tests for release build"
     } else {
-      $pinfo = New-Object System.Diagnostics.ProcessStartInfo
-      $pinfo.FileName = "python.exe"
-      $pinfo.RedirectStandardError = $true
-      $pinfo.RedirectStandardOutput = $true
-      $pinfo.UseShellExecute = $false
-      $pinfo.Arguments = “$PWD\script\test.py --ci"
-      $p = New-Object System.Diagnostics.Process
-      $p.StartInfo = $pinfo
-      $p.Start() | Out-Null
-      $p.WaitForExit(1800000)
-      $stdout = $p.StandardOutput.ReadToEnd()
-      $stderr = $p.StandardError.ReadToEnd()
-      Write-Host "stdout: $stdout"
-      Write-Host "stderr: $stderr"
-      if ($p.ExitCode -ne '0') {
-        throw "Tests failed with exit code $p.ExitCode"
+      python script\test.py --ci -v
+
+      if ($LASTEXITCODE -ne '0') {
+        throw "Tests failed with exit code $LASTEXITCODE"
       } else {
         "Tests succeeded."
       }
+      
       python script\verify-ffmpeg.py
 
       if ($LASTEXITCODE -ne '0') {
