@@ -251,7 +251,7 @@
         'conditions': [
           ['OS=="linux"', {
             'cflags': [
-              '-O2',
+              '-O0',
               # Generate symbols, will be stripped later.
               '-g',
               # Don't emit the GCC version ident directives, they just end up
@@ -266,6 +266,7 @@
               # Specifically tell the linker to perform optimizations.
               # See http://lwn.net/Articles/192624/ .
               '-Wl,-O1',
+
               '-Wl,--as-needed',
               '-Wl,--gc-sections',
             ],
