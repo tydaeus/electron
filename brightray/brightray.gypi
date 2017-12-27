@@ -326,7 +326,7 @@
           'STRIPFLAGS': '-x',
         },
       }],  # OS=="mac" and libchromiumcontent_component==0 and _type in ["executable", "shared_library"]
-      ['OS=="linux" and target_arch=="ia32" and _toolset=="target"', {
+      ['OS=="linux" and target_arch!="x64" and _toolset=="target"', {
         'ldflags': [
           # Workaround for linker OOM.
           '-Wl,--no-keep-memory',
